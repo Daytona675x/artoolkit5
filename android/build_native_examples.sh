@@ -65,18 +65,20 @@ elif [[ "$OS" = "Darwin" ]]; then
 else #Checking for Windows in a non-cygwin dependent way.
     WinsOS=
 	if [[ $OS ]]; then
-        WinsVerNum=${OS##*-}
-		if [[ $WinsVerNum = "10.0" || $WinsVerNum = "6.3" ]]; then
-			if [[ $WinsVerNum = "10.0" ]]; then
-			    WinsOS="Wins10"
-			else
-			    WinsOS="Wins8.1"
+			WinsVerNum=${OS##*-}
+			if [[ $WinsVerNum = "10.0" || $WinsVerNum = "6.3" || $WinsVerNum = "6.1" ]]; then
+				if [[ $WinsVerNum = "10.0" ]]; then
+					WinsOS="Wins10"
+				elif [[ $WinsVerNum = "6.3" ]]; then
+					WinsOS="Wins8.1"
+				else
+					WinsOS="Wins7"
+				fi
+				echo Building on Microsoft ${WinsOS} Desktop \(${ARCH}\)
+				export HOST_OS="windows"
+				NDK_BUILD_SCRIPT_FILE_EXT=".cmd"
+				CPUS=`/usr/bin/nproc`
 			fi
-			echo Building on Microsoft ${WinsOS} Desktop \(${ARCH}\)
-			export HOST_OS="windows"
-			NDK_BUILD_SCRIPT_FILE_EXT=".cmd"
-			CPUS=`/usr/bin/nproc`
-		fi
     fi
 fi
 
